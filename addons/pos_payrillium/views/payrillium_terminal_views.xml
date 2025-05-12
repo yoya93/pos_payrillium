@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="action_payrillium_terminals" model="ir.actions.act_window">
+        <field name="name">Payrillium Terminals</field>
+        <field name="res_model">payrillium.terminal</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>Manage your Payrillium payment terminals here.</p>
+        </field>
+    </record>
+
+    <record id="action_test_payrillium_terminal" model="ir.actions.server">
+        <field name="name">Test Terminal</field>
+        <field name="model_id" ref="model_payrillium_terminal"/>
+        <field name="binding_model_id" ref="model_payrillium_terminal"/>
+        <field name="binding_type">action</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.action_check_terminal()
+        </field>
+    </record>
+
+    <record id="action_unlink_payrillium_terminal" model="ir.actions.server">
+        <field name="name">Unlink Terminal</field>
+        <field name="model_id" ref="model_payrillium_terminal"/>
+        <field name="binding_model_id" ref="model_payrillium_terminal"/>
+        <field name="binding_type">action</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.action_unlink_terminal()
+        </field>
+    </record>
+
+    <record id="action_delete_payrillium_terminal" model="ir.actions.server">
+        <field name="name">Delete Terminal</field>
+        <field name="model_id" ref="model_payrillium_terminal"/>
+        <field name="binding_model_id" ref="model_payrillium_terminal"/>
+        <field name="binding_type">action</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.action_delete_terminal()
+        </field>
+    </record>
+
+    <record id="action_delete_payrillium_terminal" model="ir.actions.server">
+        <field name="name">Reset Terminal</field>
+        <field name="model_id" ref="model_payrillium_terminal"/>
+        <field name="binding_model_id" ref="model_payrillium_terminal"/>
+        <field name="binding_type">action</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.action_abort_terminal()
+        </field>
+    </record>
+
+    <menuitem id="menu_payrillium_root"
+              name="Payrillium"
+              parent="point_of_sale.menu_point_root"
+              sequence="100"/>
+
+    <menuitem id="menu_payrillium_terminals"
+              name="Terminals"
+              parent="menu_payrillium_root"
+              action="pos_payrillium.action_payrillium_terminals"
+              sequence="10"/>
+
+    <record id="view_payrillium_terminal_tree" model="ir.ui.view">
+        <field name="name">payrillium.terminal.tree</field>
+        <field name="model">payrillium.terminal</field>
+        <field name="arch" type="xml">
+            <tree string="Payrillium Terminals" > 
+                <field name="name"/>
+                <field name="serial"/>
+                <field name="pos_config_name" string="POS Config"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_payrillium_terminal_form" model="ir.ui.view">
+        <field name="name">payrillium.terminal.form</field>
+        <field name="model">payrillium.terminal</field>
+        <field name="arch" type="xml">
+            <form string="Payrillium Terminal">
+                <header>
+                    <button name="action_check_terminal"
+                            type="object"
+                            string="Check Terminal"
+                            class="oe_highlight"
+                            icon="fa-wifi"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="serial"/>
+                        <field name="pos_config_name" string="POS Config"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

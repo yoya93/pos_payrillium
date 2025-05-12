@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_payrillium_wizard_form" model="ir.ui.view">
+    <field name="name">payrillium.wizard.form</field>
+    <field name="model">payrillium.wizard</field>
+    <field name="arch" type="xml">
+      <form string="Configure Payrillium">
+        <group>
+          <field name="token" placeholder="Enter your Payrillium Token"/>
+        </group>
+        <footer>
+          <button name="submit_token" type="object" string="Validate" class="btn-primary"/>
+          <button string="Cancel" class="btn-secondary" special="cancel"/>
+        </footer>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_payrillium_wizard" model="ir.actions.act_window">
+    <field name="name">Configure Payrillium</field>
+    <field name="res_model">payrillium.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+  </record>
+
+  <record id="payrillium_wizard_menu_action" model="ir.actions.server">
+    <field name="name">Configure Payrillium</field>
+    <field name="model_id" ref="base.model_res_config_settings"/>
+    <field name="binding_model_id" ref="base.model_res_config_settings"/>
+    <field name="state">code</field>
+    <field name="code">
+      action = env.ref('pos_payrillium.action_payrillium_wizard').read()[0]
+    </field>
+  </record>
+
+  <!-- Función para ejecutar al instalar -->
+  <function model="ir.actions.act_window" name="read">
+    <value eval="[ref('action_payrillium_wizard')]"/>
+    <value eval="['id']"/>
+  </function>
+</odoo>

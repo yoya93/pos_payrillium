@@ -1,0 +1,28 @@
+<odoo> 
+    <record id="res_config_settings_view_form_payrillium" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.payrillium</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='pos_payment_terminals_section']" position="inside">
+                <setting  id="payrillium_terminal_setting">
+                    <field name="enable_payrillium_terminal" readonly="1"/>
+                    <field name="has_custom_payment" readonly="1" invisible="1"/>
+                    <div class="o_setting_description" style="cursor: help;">
+                        To use these terminals, you must add the
+                        <field name="payment_method_name_label" readonly="1" style="display:inline;font-weight:bold;"/>
+                        payment method to your POS session.
+                    </div>
+                    
+                    <div class="content-group mt16"
+                        invisible="not has_custom_payment">
+                        <field name="dummy_terminal_label" readonly="1" class="text-muted"/>
+                        <field name="terminal_id"
+                               options="{'no_create': True}"
+                               string="Available Terminals" readonly="not enable_payrillium_terminal"/>
+                    </div>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <record id="view_payrillium_wizard_form" model="ir.ui.view">
+    <field name="name">payrillium.wizard.form</field>
+    <field name="model">payrillium.wizard</field>
+    <field name="arch" type="xml">
+      <form string="Configure Payrillium">
+        <group>
+          <field name="token" placeholder="Enter your Payrillium Token"/>
+          <field name="account_id" placeholder="Select Payment Account"/>
+          <field name="receivable_account_id" placeholder="Select Receivable Account"/>
+        </group>
+        <footer>
+          <button name="submit_token" type="object" string="Validate" class="btn-primary"/>
+          <button string="Cancel" class="btn-secondary" special="cancel"/>
+        </footer>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_payrillium_wizard" model="ir.actions.act_window">
+    <field name="name">Configure Payrillium</field>
+    <field name="res_model">payrillium.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+  </record>
+
+  <record id="action_open_wizard_on_install" model="ir.actions.server">
+    <field name="name">Open Payrillium Configuration</field>
+    <field name="model_id" ref="model_payrillium_wizard"/>
+    <field name="state">code</field>
+    <field name="sequence">1</field>
+    <field name="code">
+if not env['payrillium.config'].search_count([]):
+    action = {
+        'type': 'ir.actions.act_window',
+        'name': 'Configure Payrillium',
+        'res_model': 'payrillium.wizard',
+        'view_mode': 'form',
+        'target': 'new',
+        'flags': {'mode': 'edit'}
+    }
+        </field>
+  </record>
+
+  <record id="ir_actions_todo_wizard" model="ir.actions.todo">
+    <field name="action_id" ref="action_open_wizard_on_install"/>
+    <field name="sequence">1</field>
+    <field name="state">open</field>
+  </record>
+
+</odoo>
