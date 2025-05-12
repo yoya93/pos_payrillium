@@ -1,0 +1,15 @@
+image: gitpod/workspace-full
+
+tasks:
+  - name: “Arrancar Odoo”
+    command: |
+      # Clona Odoo 17, instala deps y levanta el servidor
+      git clone --branch 17.0 https://github.com/odoo/odoo.git odoo
+      pip3 install -r odoo/requirements.txt
+      odoo/odoo-bin \
+        --addons-path=addons,odoo/addons \
+        --db-filter=gitpod \
+        --load=web,point_of_sale
+ports:
+  - port: 8069
+    onOpen: open-preview
