@@ -1,15 +1,26 @@
 image: gitpod/workspace-full
 
 tasks:
-  - name: “Arrancar Odoo”
-    command: |
-      # Clona Odoo 17, instala deps y levanta el servidor
+  - name: Preparar entorno
+    init: |
+      # Instala las cabeceras de PostgreSQL y Python
+      sudo apt-get update
+      sudo apt-get install -y libpq-dev python3-dev gcc
+
+      # Clona Odoo 17
       git clone --branch 17.0 https://github.com/odoo/odoo.git odoo
+
+      # Instala los requisitos de Odoo + psycopg2-binary
       pip3 install -r odoo/requirements.txt
+      pip3 install psycopg2-binary
+
+  - name: Arrancar Odoo 17
+    command: |
       odoo/odoo-bin \
         --addons-path=addons,odoo/addons \
         --db-filter=gitpod \
         --load=web,point_of_sale
+
 ports:
   - port: 8069
     onOpen: open-preview
